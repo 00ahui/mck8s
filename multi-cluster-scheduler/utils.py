@@ -227,7 +227,7 @@ def computeAllocatableCapacity(cluster, app_name, namespace):
     allocatable_resources_per_node = []
 
     try:
-        for node in core_v1.list_node(_request_timeout=timeout).items[1:]:
+        for node in core_v1.list_node(_request_timeout=timeout).items:
             stats = {}
             node_name = node.metadata.name
             allocatable = node.status.allocatable
@@ -322,7 +322,7 @@ def compute_available_resources(cluster):
     available_resources_per_node = []
 
     try:
-        for node in core_v1.list_node(_request_timeout=timeout).items[1:]:
+        for node in core_v1.list_node(_request_timeout=timeout).items:
             stats          = {}
             node_name      = node.metadata.name
             allocatable    = node.status.allocatable
@@ -379,8 +379,8 @@ def getPerNodeResources(cluster):
     try:
         nodes = client_cluster.list_node(_request_timeout=timeout)
 
-        perNodeCPU = Q_(nodes.items[1].status.capacity['cpu']).to('m')
-        perNodeMemory = Q_(nodes.items[1].status.capacity['memory']).to('Ki')
+        perNodeCPU = Q_(nodes.items[0].status.capacity['cpu']).to('m')
+        perNodeMemory = Q_(nodes.items[0].status.capacity['memory']).to('Ki')
 
         perNodeCPU = float(str(perNodeCPU)[:-2])
         perNodeMemory = float(str(perNodeMemory)[:-3])
