@@ -12,24 +12,25 @@ spec:
       labels:
         app: multiclusterscheduler
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: "virtual-158-4-2"
-      tolerations:
-      - key: "node-role.kubernetes.io/master"
-        operator: "Equal"
-        effect: "NoSchedule"
       serviceAccountName: rbac-mck8s
       containers:
-      - image: moule3053/multiclusterscheduler:latest
+      - image: mck8s-scheduler
         name: mcs
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
+        - env:
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: PROMETHEUS_DEMO_SERVICE_SERVICE_HOST
+            value: 8.46.188.21
+          - name: PROMETHEUS_DEMO_SERVICE_SERVICE_PORT
+            value: "30003"
         volumeMounts:
         - mountPath: /root/.kube/config
           name: kube-config
-        resources:
-          requests:
-            cpu: 1
-            memory: 1024Mi
+        #resources:
+        #  requests:
+        #    cpu: 1
+        #    memory: 1024Mi
       volumes:
       - name: kube-config
         hostPath:

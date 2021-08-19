@@ -12,17 +12,11 @@ spec:
       labels:
         app: cloud-provisioner
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: MASTER_NODE_HOST_NAME
-      tolerations:
-      - key: "node-role.kubernetes.io/master"
-        operator: "Equal"
-        effect: "NoSchedule"
       serviceAccountName: rbac-mck8s
       containers:
-      - image: REPO_NAME/CLOUD_PROVISIONER_IMAGE
+      - image: mck8s-provisioner
         name: cloud-provisioner
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /root/.kube/config
           name: kube-config
@@ -33,6 +27,6 @@ spec:
       volumes:
       - name: kube-config
         hostPath:
-          path: /PATH/TO/HOME/DIRECTORY/.kube/config
+          path: /root/.kube/config
           type: File
 
