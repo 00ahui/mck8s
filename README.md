@@ -26,7 +26,7 @@ for f in cluster*;do
   #sed -i 's/certificate-authority-data.*$/insecure-skip-tls-verify: true/g' $f
 done
 
-# 修改cluster1/cluster2/cluster3，设置IP地址
+# 修改cluster0/cluster1/cluster2，设置IP地址
     server: https://<node0_ip_address>:6443
     server: https://<node1_ip_address>:6443
     server: https://<node2_ip_address>:6443
